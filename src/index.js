@@ -1,12 +1,53 @@
-import React from 'react';
+import React, { Component } from 'react';
+
 import ReactDOM from 'react-dom';
+import Board from './components/Board';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import {
+  subscribeToTimer, 
+  newGameCreated,
+  hostCreateNewGame
+} from './api/socket';
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+class Square extends React.Component {
+
+  render() {
+    return (
+      <button className="square">
+        {/* TODO */}
+      </button>
+    );
+  }
+}
+
+
+class Game extends React.Component {
+	constructor(props) {
+	  super(props);
+	  this.state = {
+      gameId: '',
+      mySocketId: '',
+		};
+	}
+  render() {
+    return (
+      <div className="game">
+        <div className="game-board">
+          <Board />
+        </div>
+        <div className="game-info">
+          <div>{/* status */}</div>
+          <ol>{/* TODO */}</ol>
+        </div>
+      </div>
+    );
+  }
+}
+
+// ========================================
+
+ReactDOM.render(
+  <Game />,
+  document.getElementById('root')
+);
