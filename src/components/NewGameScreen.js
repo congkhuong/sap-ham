@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 
-import { playerJoinedRoom } from '../api/socket';
+import { playerJoinedRoom, roomInfo } from '../api/socket';
 
 class NewGameScreen extends Component {
   constructor(props) {
@@ -9,11 +9,18 @@ class NewGameScreen extends Component {
     this.state = {
       players: []
     }
+    const { gameId } = props;
     playerJoinedRoom((obj) => {
-      this.setState({ players: [obj] });
+      this.setState((state) => {
+        const players = state.players;
+        players.push(obj);
+        return { players };
+      });
     });
 
-    
+    roomInfo(gameId, (players) => {
+      this.setState({ players })
+    });
   }
   render() {
     const { gameId, mySocketId } = this.props;
@@ -23,6 +30,11 @@ class NewGameScreen extends Component {
       <div>
         The game is ready
         <p>Your game ID: { gameId }</p>
+        <ul>
+          {players.map(function(player, index){
+            return <li key={ index }>{player.username}</li>;
+          })}
+        </ul>
       </div>
     );
   }

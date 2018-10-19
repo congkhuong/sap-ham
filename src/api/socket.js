@@ -22,10 +22,16 @@ function playerJoinedRoom(cb) {
   socket.on('playerJoinedRoom', obj => cb(obj));
 }
 
+function roomInfo(roomId, cb) {
+  socket.emit('roomInfo', roomId);
+  socket.on('getRoomInfo', players => cb(players));
+}
+
 export {
   subscribeToTimer,
   newGameCreated,
   playerJoinGame,
   playerJoinedRoom,
+  roomInfo,
   hostCreateNewGame
 };
